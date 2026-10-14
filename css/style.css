@@ -5,10 +5,9 @@
 
 /* ---------- 设计变量 ---------- */
 :root {
-  /* 强制本页只使用浅色方案：
-     防止系统/浏览器（尤其是浏览器的"强制网页深色"）自动反色或套用深色 UA 样式，
-     否则浅色背景上的文字、渐变文字会变得看不清。 */
-  color-scheme: only light;
+  /* 声明同时支持浅色与深色方案：
+     站点自身已提供深色主题，浏览器（含"强制网页深色"）会尊重该声明而不再自动反色。 */
+  color-scheme: light dark;
 
   /* 主色：清爽的青蓝 -> 紫罗兰渐变 */
   --c-primary: #3b82f6;
@@ -23,6 +22,17 @@
   --surface: rgba(255, 255, 255, 0.72);
   --surface-solid: #ffffff;
   --border: rgba(59, 130, 246, 0.16);
+
+  /* 半透明表面（导航 / 标签 / 幽灵按钮 / 时间轴节点等）：
+     统一抽为变量，便于深色主题整体覆盖 */
+  --header-bg: rgba(255, 255, 255, 0.55);
+  --header-bg-scrolled: rgba(255, 255, 255, 0.82);
+  --nav-panel-bg: rgba(255, 255, 255, 0.96);
+  --tag-bg: rgba(255, 255, 255, 0.8);
+  --btn-ghost-bg: rgba(255, 255, 255, 0.7);
+  --btn-ghost-bg-hover: #ffffff;
+  --dot-bg: #ffffff;
+  --stripe: rgba(255, 255, 255, 0.4);
 
   /* 文本（提高次要文字对比度，保证浅色底上也清晰可读） */
   --text: #1e293b;
@@ -56,7 +66,7 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: var(--header-h);
-  /* 显式指定不透明的浅色根背景，避免系统深色底透出导致文字对比度异常 */
+  /* 显式指定不透明根背景，避免系统默认底色透出影响对比度 */
   background-color: var(--bg);
 }
 
@@ -190,13 +200,13 @@ h1, h2, h3, h4 {
   z-index: 100;
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  background: rgba(255, 255, 255, 0.55);
+  background: var(--header-bg);
   border-bottom: 1px solid transparent;
   transition: background 0.3s var(--ease), border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
 }
 
 .site-header.is-scrolled {
-  background: rgba(255, 255, 255, 0.82);
+  background: var(--header-bg-scrolled);
   border-bottom-color: var(--border);
   box-shadow: var(--shadow-sm);
 }
@@ -451,14 +461,14 @@ h1, h2, h3, h4 {
 
 .btn--ghost {
   color: var(--c-primary);
-  background: rgba(255, 255, 255, 0.7);
+  background: var(--btn-ghost-bg);
   border-color: var(--border);
   box-shadow: var(--shadow-sm);
 }
 
 .btn--ghost:hover {
   transform: translateY(-3px);
-  background: #fff;
+  background: var(--btn-ghost-bg-hover);
   box-shadow: var(--shadow);
 }
 
@@ -553,7 +563,7 @@ h1, h2, h3, h4 {
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  background: #fff;
+  background: var(--dot-bg);
   border: 3px solid var(--c-primary);
   box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.14);
 }
@@ -647,7 +657,7 @@ h1, h2, h3, h4 {
   padding: 5px 13px;
   border-radius: 999px;
   color: var(--text-soft);
-  background: rgba(255, 255, 255, 0.8);
+  background: var(--tag-bg);
   border: 1px solid var(--border);
   transition: color 0.2s var(--ease), border-color 0.2s var(--ease);
 }
@@ -714,7 +724,7 @@ h1, h2, h3, h4 {
   font-size: 40px;
   background:
     linear-gradient(135deg, rgba(96, 165, 250, 0.18), rgba(167, 139, 250, 0.2)),
-    repeating-linear-gradient(45deg, rgba(255,255,255,0.4) 0 10px, transparent 10px 20px);
+    repeating-linear-gradient(45deg, var(--stripe) 0 10px, transparent 10px 20px);
   border-bottom: 1px solid var(--border);
 }
 
@@ -876,7 +886,7 @@ h1, h2, h3, h4 {
     align-items: stretch;
     gap: 2px;
     padding: 12px 20px 20px;
-    background: rgba(255, 255, 255, 0.96);
+    background: var(--nav-panel-bg);
     border-bottom: 1px solid var(--border);
     box-shadow: var(--shadow);
     transform: translateY(-12px);
@@ -932,17 +942,54 @@ h1, h2, h3, h4 {
   }
 }
 
-/* ---------- 深色模式保护 ---------- */
-/* 本页是浅色系设计：即使系统处于深色模式，也固定为浅色，
-   避免浏览器"自动深色 / 强制反色"把浅色背景反转、导致文字与渐变文字看不清。 */
+/* ---------- 深色主题（跟随系统） ---------- */
+/* 系统/浏览器处于深色模式时覆盖整套设计变量，站点切换为深色，
+   因此无需再被浏览器强制反色。 */
 @media (prefers-color-scheme: dark) {
   :root {
-    color-scheme: only light;
+    color-scheme: light dark;
+
+    /* 深色底色 */
+    --bg: #0b1220;
+    --bg-soft: #101a2e;
+    --surface: rgba(23, 32, 52, 0.72);
+    --surface-solid: #16203a;
+    --border: rgba(96, 165, 250, 0.22);
+
+    /* 主色：深色底上提亮，保证作为文字 / 描边时对比度足够 */
+    --c-primary: #7cb0ff;
+    --c-accent: #b39bff;
+
+    /* 文本 */
+    --text: #e6edf7;
+    --text-soft: #b8c4d8;
+    --text-muted: #8ea0bd;
+
+    /* 半透明表面 */
+    --header-bg: rgba(11, 18, 32, 0.6);
+    --header-bg-scrolled: rgba(11, 18, 32, 0.86);
+    --nav-panel-bg: rgba(13, 21, 38, 0.97);
+    --tag-bg: rgba(255, 255, 255, 0.06);
+    --btn-ghost-bg: rgba(28, 40, 64, 0.7);
+    --btn-ghost-bg-hover: rgba(36, 50, 80, 0.95);
+    --dot-bg: #0b1220;
+    --stripe: rgba(255, 255, 255, 0.06);
+
+    /* 阴影：深色下改用更深的黑色投影 */
+    --shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.35);
+    --shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
+    --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.55);
   }
 
-  html,
-  body {
-    background-color: #f7f9fc;
-    color: #1e293b;
+  /* 深色下减弱背景光晕亮度，避免过曝 */
+  .bg-glow {
+    opacity: 0.32;
+  }
+
+  /* 网格线在深色底上改用亮色，保证可见 */
+  .bg-grid {
+    background-image:
+      linear-gradient(rgba(96, 165, 250, 0.09) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(96, 165, 250, 0.09) 1px, transparent 1px);
   }
 }

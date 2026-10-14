@@ -47,11 +47,11 @@ personal-homepage/
 
 ## 深色模式说明
 
-本页是**纯浅色系**设计。为避免系统 / 浏览器开启深色模式时自动反色、导致浅色背景上的文字看不清，做了以下处理：
+站点同时提供**浅色与深色两套主题**，跟随系统自动切换：
 
-- 在 [`index.html`](index.html) 的 `<head>` 中声明 `<meta name="color-scheme" content="only light" />`。
-- 在 [`css/style.css`](css/style.css) 的 `:root` 中通过 `color-scheme: only light;` 明确本页只支持浅色方案。
-- 额外用 `@media (prefers-color-scheme: dark)` 兜底，固定根背景为浅色，防止透出系统深色底。
+- 在 [`index.html`](index.html) 的 `<head>` 中声明 `<meta name="color-scheme" content="light dark" />`，并分别给出浅色 / 深色的 `theme-color`。
+- 在 [`css/style.css`](css/style.css) 的 `:root` 中通过 `color-scheme: light dark;` 声明支持两种方案。因为站点自带深色主题，浏览器（含「强制网页深色」）会尊重该声明而不再自动反色。
+- 通过 `@media (prefers-color-scheme: dark)` 覆盖整套设计变量实现深色主题；所有半透明表面（导航、标签、幽灵按钮、时间轴节点等）均已抽为变量，便于统一维护。
 
 ## 设计说明
 

@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- 本页为纯浅色设计：显式声明配色方案，防止系统/浏览器深色模式自动反色 -->
-  <meta name="color-scheme" content="only light" />
-  <meta name="supported-color-schemes" content="light" />
-  <meta name="theme-color" content="#f7f9fc" />
+  <!-- 同时支持浅色与深色两套主题，跟随系统自动切换 -->
+  <meta name="color-scheme" content="light dark" />
+  <meta name="supported-color-schemes" content="light dark" />
+  <meta name="theme-color" content="#f7f9fc" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)" />
   <title>个人主页 | 第一版框架</title>
   <meta name="description" content="个人主页 —— 关于我、教育经历、工作经历、技能、爱好与作品。" />
   <link rel="stylesheet" href="css/style.css" />
