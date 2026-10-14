@@ -45,6 +45,14 @@ personal-homepage/
 - **简历下载**：把简历文件命名为 `resume.pdf` 放到 [`assets/`](assets) 目录下。
 - **主题色**：在 [`css/style.css`](css/style.css) 顶部的 `:root` 变量中统一调整。
 
+## 深色模式说明
+
+本页是**纯浅色系**设计。为避免系统 / 浏览器开启深色模式时自动反色、导致浅色背景上的文字看不清，做了以下处理：
+
+- 在 [`index.html`](index.html) 的 `<head>` 中声明 `<meta name="color-scheme" content="only light" />`。
+- 在 [`css/style.css`](css/style.css) 的 `:root` 中通过 `color-scheme: only light;` 明确本页只支持浅色方案。
+- 额外用 `@media (prefers-color-scheme: dark)` 兜底，固定根背景为浅色，防止透出系统深色底。
+
 ## 设计说明
 
 - **浅色系**：背景 `#f7f9fc`，卡片为半透明白色玻璃拟态。

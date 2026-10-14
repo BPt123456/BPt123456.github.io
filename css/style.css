@@ -5,6 +5,11 @@
 
 /* ---------- 设计变量 ---------- */
 :root {
+  /* 强制本页只使用浅色方案：
+     防止系统/浏览器（尤其是浏览器的"强制网页深色"）自动反色或套用深色 UA 样式，
+     否则浅色背景上的文字、渐变文字会变得看不清。 */
+  color-scheme: only light;
+
   /* 主色：清爽的青蓝 -> 紫罗兰渐变 */
   --c-primary: #3b82f6;
   --c-primary-soft: #60a5fa;
@@ -19,10 +24,10 @@
   --surface-solid: #ffffff;
   --border: rgba(59, 130, 246, 0.16);
 
-  /* 文本 */
+  /* 文本（提高次要文字对比度，保证浅色底上也清晰可读） */
   --text: #1e293b;
   --text-soft: #475569;
-  --text-muted: #94a3b8;
+  --text-muted: #64748b;
 
   /* 渐变 */
   --grad: linear-gradient(120deg, var(--c-primary) 0%, var(--c-accent) 55%, var(--c-cyan) 100%);
@@ -51,6 +56,8 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: var(--header-h);
+  /* 显式指定不透明的浅色根背景，避免系统深色底透出导致文字对比度异常 */
+  background-color: var(--bg);
 }
 
 body {
@@ -59,7 +66,7 @@ body {
   font-size: 16px;
   line-height: 1.7;
   color: var(--text);
-  background: var(--bg);
+  background-color: var(--bg);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
@@ -922,5 +929,20 @@ h1, h2, h3, h4 {
   .reveal {
     opacity: 1;
     transform: none;
+  }
+}
+
+/* ---------- 深色模式保护 ---------- */
+/* 本页是浅色系设计：即使系统处于深色模式，也固定为浅色，
+   避免浏览器"自动深色 / 强制反色"把浅色背景反转、导致文字与渐变文字看不清。 */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: only light;
+  }
+
+  html,
+  body {
+    background-color: #f7f9fc;
+    color: #1e293b;
   }
 }
