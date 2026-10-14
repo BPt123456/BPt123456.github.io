@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>个人主页 | 第一版框架</title>
+  <meta name="description" content="个人主页 —— 关于我、教育经历、工作经历、技能、爱好与作品。" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+</head>
+<body>
+  <!-- ===== 科技感背景装饰（网格 + 光晕 + 粒子画布） ===== -->
+  <div class="bg-layer">
+    <div class="bg-grid"></div>
+    <div class="bg-glow bg-glow--1"></div>
+    <div class="bg-glow bg-glow--2"></div>
+    <div class="bg-glow bg-glow--3"></div>
+    <canvas id="particle-canvas"></canvas>
+  </div>
+
+  <!-- ===== 顶部导航 ===== -->
+  <header class="site-header">
+    <nav class="nav" aria-label="主导航">
+      <a href="#home" class="nav__logo">
+        <span class="nav__logo-mark"></></span>
+        <span class="nav__logo-text">Portfolio</span>
+      </a>
+
+      <button class="nav__toggle" aria-label="展开菜单" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <ul class="nav__list">
+        <li><a class="nav__link is-active" href="#home">首页</a></li>
+        <li><a class="nav__link" href="#education">教育经历</a></li>
+        <li><a class="nav__link" href="#experience">工作经历</a></li>
+        <li><a class="nav__link" href="#skills">技能</a></li>
+        <li><a class="nav__link" href="#hobbies">爱好</a></li>
+        <li><a class="nav__link" href="#works">作品</a></li>
+      </ul>
+    </nav>
+    <!-- 滚动进度条 -->
+    <div class="scroll-progress" aria-hidden="true"><span id="scroll-progress-bar"></span></div>
+  </header>
+
+  <main>
+    <!-- ============ 第一页：名字（Hero） ============ -->
+    <section id="home" class="section section--hero">
+      <div class="container hero">
+        <p class="hero__eyebrow reveal">👋 你好，我是</p>
+
+        <h1 class="hero__name reveal">
+          <span class="gradient-text">你的名字</span>
+        </h1>
+
+        <p class="hero__role reveal">
+          一句话介绍自己 · <span class="typed" data-typed='["职业 / 身份标签一","职业 / 身份标签二","职业 / 身份标签三"]'></span><span class="caret">|</span>
+        </p>
+
+        <p class="hero__desc reveal">
+          这里放一句简短的自我简介，告诉访客你是谁、在做什么、关注什么方向。
+        </p>
+
+        <div class="hero__actions reveal">
+          <a href="#works" class="btn btn--primary">查看我的作品</a>
+          <a href="#contact" class="btn btn--ghost">联系我</a>
+        </div>
+
+        <div class="hero__scroll reveal" aria-hidden="true">
+          <span class="hero__scroll-mouse"></span>
+          <span class="hero__scroll-text">向下滚动</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 第二页：教育经历 ============ -->
+    <section id="education" class="section">
+      <div class="container">
+        <header class="section__head reveal">
+          <span class="section__index">01</span>
+          <h2 class="section__title">教育经历</h2>
+          <p class="section__subtitle">Education</p>
+        </header>
+
+        <div class="timeline">
+          <!-- 教育条目（占位，后续填入内容） -->
+          <article class="timeline__item glass-card reveal">
+            <div class="timeline__dot"></div>
+            <div class="timeline__meta">
+              <span class="timeline__date">起止时间</span>
+              <span class="badge">学历 / 学位</span>
+            </div>
+            <h3 class="timeline__title">学校名称</h3>
+            <p class="timeline__sub">专业名称</p>
+            <p class="timeline__desc placeholder-text">
+              此处填写在校经历、主修课程、荣誉奖项等描述内容。
+            </p>
+          </article>
+
+          <article class="timeline__item glass-card reveal">
+            <div class="timeline__dot"></div>
+            <div class="timeline__meta">
+              <span class="timeline__date">起止时间</span>
+              <span class="badge">学历 / 学位</span>
+            </div>
+            <h3 class="timeline__title">学校名称</h3>
+            <p class="timeline__sub">专业名称</p>
+            <p class="timeline__desc placeholder-text">
+              此处填写在校经历、主修课程、荣誉奖项等描述内容。
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 第三页：工作经历 ============ -->
+    <section id="experience" class="section">
+      <div class="container">
+        <header class="section__head reveal">
+          <span class="section__index">02</span>
+          <h2 class="section__title">工作经历</h2>
+          <p class="section__subtitle">Experience</p>
+        </header>
+
+        <div class="timeline">
+          <!-- 工作条目（占位，后续填入内容） -->
+          <article class="timeline__item glass-card reveal">
+            <div class="timeline__dot"></div>
+            <div class="timeline__meta">
+              <span class="timeline__date">起止时间</span>
+              <span class="badge">职位名称</span>
+            </div>
+            <h3 class="timeline__title">公司名称</h3>
+            <p class="timeline__sub">部门 / 团队</p>
+            <p class="timeline__desc placeholder-text">
+              此处填写工作职责、项目成果、技术栈等描述内容。
+            </p>
+          </article>
+
+          <article class="timeline__item glass-card reveal">
+            <div class="timeline__dot"></div>
+            <div class="timeline__meta">
+              <span class="timeline__date">起止时间</span>
+              <span class="badge">职位名称</span>
+            </div>
+            <h3 class="timeline__title">公司名称</h3>
+            <p class="timeline__sub">部门 / 团队</p>
+            <p class="timeline__desc placeholder-text">
+              此处填写工作职责、项目成果、技术栈等描述内容。
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 第四页：技能 ============ -->
+    <section id="skills" class="section">
+      <div class="container">
+        <header class="section__head reveal">
+          <span class="section__index">03</span>
+          <h2 class="section__title">技能</h2>
+          <p class="section__subtitle">Skills</p>
+        </header>
+
+        <div class="skills-grid">
+          <!-- 技能条目（占位，后续填入内容） -->
+          <article class="skill-card glass-card reveal">
+            <div class="skill-card__icon">⚡</div>
+            <h3 class="skill-card__title">技能分类一</h3>
+            <ul class="skill-card__tags">
+              <li class="tag">技能项</li>
+              <li class="tag">技能项</li>
+              <li class="tag">技能项</li>
+            </ul>
+          </article>
+
+          <article class="skill-card glass-card reveal">
+            <div class="skill-card__icon">🧩</div>
+            <h3 class="skill-card__title">技能分类二</h3>
+            <ul class="skill-card__tags">
+              <li class="tag">技能项</li>
+              <li class="tag">技能项</li>
+              <li class="tag">技能项</li>
+            </ul>
+          </article>
+
+          <article class="skill-card glass-card reveal">
+            <div class="skill-card__icon">🚀</div>
+            <h3 class="skill-card__title">技能分类三</h3>
+            <ul class="skill-card__tags">
+              <li class="tag">技能项</li>
+              <li class="tag">技能项</li>
+              <li class="tag">技能项</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 第五页：爱好 ============ -->
+    <section id="hobbies" class="section">
+      <div class="container">
+        <header class="section__head reveal">
+          <span class="section__index">04</span>
+          <h2 class="section__title">爱好</h2>
+          <p class="section__subtitle">Hobbies</p>
+        </header>
+
+        <div class="hobbies-grid">
+          <!-- 爱好条目（占位，后续填入内容） -->
+          <article class="hobby-card glass-card reveal">
+            <div class="hobby-card__icon">🎨</div>
+            <h3 class="hobby-card__title">爱好一</h3>
+            <p class="hobby-card__desc placeholder-text">一句话描述这个爱好。</p>
+          </article>
+
+          <article class="hobby-card glass-card reveal">
+            <div class="hobby-card__icon">🎵</div>
+            <h3 class="hobby-card__title">爱好二</h3>
+            <p class="hobby-card__desc placeholder-text">一句话描述这个爱好。</p>
+          </article>
+
+          <article class="hobby-card glass-card reveal">
+            <div class="hobby-card__icon">📷</div>
+            <h3 class="hobby-card__title">爱好三</h3>
+            <p class="hobby-card__desc placeholder-text">一句话描述这个爱好。</p>
+          </article>
+
+          <article class="hobby-card glass-card reveal">
+            <div class="hobby-card__icon">🏃</div>
+            <h3 class="hobby-card__title">爱好四</h3>
+            <p class="hobby-card__desc placeholder-text">一句话描述这个爱好。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 第六页：作品 ============ -->
+    <section id="works" class="section">
+      <div class="container">
+        <header class="section__head reveal">
+          <span class="section__index">05</span>
+          <h2 class="section__title">作品</h2>
+          <p class="section__subtitle">Works</p>
+        </header>
+
+        <div class="works-grid">
+          <!-- 作品条目（占位，后续填入内容） -->
+          <article class="work-card glass-card reveal">
+            <div class="work-card__thumb">
+              <span class="work-card__thumb-icon">🖼️</span>
+            </div>
+            <div class="work-card__body">
+              <h3 class="work-card__title">作品名称</h3>
+              <p class="work-card__desc placeholder-text">作品简介一句话。</p>
+              <ul class="work-card__tags">
+                <li class="tag">标签</li>
+                <li class="tag">标签</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="work-card glass-card reveal">
+            <div class="work-card__thumb">
+              <span class="work-card__thumb-icon">🖼️</span>
+            </div>
+            <div class="work-card__body">
+              <h3 class="work-card__title">作品名称</h3>
+              <p class="work-card__desc placeholder-text">作品简介一句话。</p>
+              <ul class="work-card__tags">
+                <li class="tag">标签</li>
+                <li class="tag">标签</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="work-card glass-card reveal">
+            <div class="work-card__thumb">
+              <span class="work-card__thumb-icon">🖼️</span>
+            </div>
+            <div class="work-card__body">
+              <h3 class="work-card__title">作品名称</h3>
+              <p class="work-card__desc placeholder-text">作品简介一句话。</p>
+              <ul class="work-card__tags">
+                <li class="tag">标签</li>
+                <li class="tag">标签</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 联系（锚点，供 Hero 按钮跳转） ============ -->
+    <section id="contact" class="section section--contact">
+      <div class="container">
+        <header class="section__head reveal">
+          <span class="section__index">06</span>
+          <h2 class="section__title">联系方式</h2>
+          <p class="section__subtitle">Contact</p>
+        </header>
+
+        <div class="contact-grid">
+          <a class="contact-card glass-card reveal" href="#" aria-label="邮箱">
+            <span class="contact-card__icon">✉️</span>
+            <span class="contact-card__label">邮箱</span>
+            <span class="contact-card__value">your@email.com</span>
+          </a>
+          <a class="contact-card glass-card reveal" href="#" aria-label="GitHub">
+            <span class="contact-card__icon">🐙</span>
+            <span class="contact-card__label">GitHub</span>
+            <span class="contact-card__value">github.com/username</span>
+          </a>
+          <a class="contact-card glass-card reveal" href="#" aria-label="社交主页">
+            <span class="contact-card__icon">🔗</span>
+            <span class="contact-card__label">社交主页</span>
+            <span class="contact-card__value">链接地址</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ 页脚 + 简历 PDF 下载入口 ============ -->
+  <footer class="site-footer">
+    <div class="container footer">
+      <div class="footer__cta reveal">
+        <h2 class="footer__title">想更完整地了解我？</h2>
+        <p class="footer__desc">下载我的简历 PDF，查看完整的经历与项目详情。</p>
+        <a
+          class="btn btn--primary btn--download"
+          href="assets/resume.pdf"
+          download="简历.pdf"
+          id="resume-download"
+        >
+          <span class="btn__icon">⬇️</span>
+          下载我的简历 PDF
+        </a>
+      </div>
+
+      <div class="footer__bottom">
+        <p class="footer__copyright">© <span id="year"></span> 你的名字 · All rights reserved.</p>
+        <a href="#home" class="footer__top">回到顶部 ↑</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
