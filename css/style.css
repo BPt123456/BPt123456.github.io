@@ -249,6 +249,12 @@ h1, h2, h3, h4 {
   -webkit-text-fill-color: transparent;
 }
 
+/* 名字与昵称之间的分隔符 */
+.nav__logo-divider {
+  font-weight: 400;
+  opacity: 0.45;
+}
+
 .nav__list {
   display: flex;
   align-items: center;
