@@ -15,7 +15,11 @@
 
 ## 本地文件位置
 
-`C:\Users\Talouyemao\Desktop\personal-homepage\`
+`C:\Users\Talouyemao\Desktop\Projects\personal-homepage\`
+
+> 仓库可以整体移动或改名（`.git` 目录会跟着一起走），移动后**不影响推送**，
+> 只需回来更新上面这一行路径说明即可。
+> 同级的 `Desktop\Projects\` 下还放有其他项目（如 `ultimate-tictactoe`），彼此互不影响。
 
 ## 如何更新网站（三步）
 
