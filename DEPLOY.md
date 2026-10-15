@@ -35,10 +35,10 @@ git push
 
 ## ⚠️ 本机网络说明（重要）
 
-本机访问 GitHub 需要走代理，命令行工具不会自动读取系统代理，需显式设置。
+GitHub 可访问性取决于代理软件是否开启，**代理会间歇性断开**，推送失败多为网络原因而非仓库问题。
 
-- 已验证可用代理端口：**`127.0.0.1:7897`**
-- Git 代理已全局配置好（`http.proxy` / `https.proxy`）
+- 代理端口：**`127.0.0.1:7897`**（Clash 混合端口，用时需确保代理软件已启动）
+- Git 全局已配置 `http.proxy` / `https.proxy` 指向该端口
 - 若使用 `gh` 命令，需在命令前设置环境变量，例如：
 
 ```
@@ -48,10 +48,27 @@ set HTTP_PROXY=http://127.0.0.1:7897
 gh <命令>
 ```
 
+### 推送失败时的排查顺序
+
+1. **先确认代理软件开着**，并确认端口在监听：
+   `netstat -ano | findstr 7897`
+2. **测试代理能否访问 GitHub**（能返回 `HTTP/1.1 200` 即正常）：
+   `curl -x http://127.0.0.1:7897 -s -I https://github.com`
+3. **再尝试推送**：`git push`
+4. 若报 `schannel: failed to receive handshake, SSL/TLS connection failed`
+   —— 说明代理在握手阶段被中断，**通常是代理刚断线**，重启代理后重试即可。
+5. 若代理为 **TUN / 系统级转发模式**，Git 无需再叠加 `http.proxy`，此时可临时清空后重试：
+   `git -c http.proxy= -c https.proxy= push`
+
 > 若以后代理端口变化，请同步更新：
 > `git config --global http.proxy http://127.0.0.1:新端口`
 > `git config --global https.proxy http://127.0.0.1:新端口`
 > 不需要代理时可用 `git config --global --unset http.proxy` 和 `--unset https.proxy` 取消。
+
+### 尚未推送的本地提交
+
+若某次推送失败，提交会保留在本地，恢复网络后执行 `git push` 即可补推，**不会丢失**。
+用 `git status` 看到 `ahead 1` 就代表有 1 个提交等待推送。
 
 ## 简历 PDF 隐私提醒
 
