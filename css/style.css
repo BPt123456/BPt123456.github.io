@@ -745,6 +745,36 @@ h1, h2, h3, h4 {
   color: var(--text-muted);
 }
 
+/* 作品外链（查看 / 下载） */
+.work-card__link {
+  align-self: flex-start;
+  margin-top: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--c-primary);
+  text-decoration: none;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--btn-ghost-bg);
+  transition: transform 0.25s var(--ease), background 0.25s var(--ease),
+    color 0.25s var(--ease), box-shadow 0.25s var(--ease);
+}
+
+.work-card__link:hover {
+  transform: translateY(-3px);
+  color: var(--c-accent);
+  background: var(--btn-ghost-bg-hover);
+  box-shadow: var(--shadow-sm);
+}
+
+.work-card__link-icon {
+  font-size: 15px;
+}
+
 /* ---------- 联系方式 ---------- */
 .contact-grid {
   display: grid;
