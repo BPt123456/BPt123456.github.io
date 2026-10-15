@@ -1,0 +1,15 @@
+html[data-theme="neon"] {
+  --bg: #07080d;
+  --ink: #e8f4ff;
+  --muted: #8aa0b8;
+  --line: rgba(80, 255, 210, 0.25);
+  --board: #10131c;
+  --local: #0b0e16;
+  --active: #39ffb6;
+  --x: #ff4d8d;
+  --o: #4dc9ff;
+  --draw: #6b7c90;
+  --btn: #39ffb6;
+  --btn-ink: #06140f;
+  --shadow: 0 0 40px rgba(57, 255, 182, 0.12);
+}

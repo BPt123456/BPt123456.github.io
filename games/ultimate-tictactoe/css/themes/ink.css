@@ -1,0 +1,15 @@
+/* 默认皮肤：夜弈。新增皮肤只需覆盖这些变量。 */
+html[data-theme="ink"] {
+  --bg: #12110f;
+  --ink: #efe7d6;
+  --muted: #a39886;
+  --line: rgba(239, 231, 214, 0.22);
+  --board: #1b1915;
+  --local: #141210;
+  --active: #d4a017;
+  --x: #c4452d;
+  --o: #6f93b8;
+  --draw: #7a7266;
+  --btn: #efe7d6;
+  --btn-ink: #171410;
+}

@@ -15,7 +15,7 @@
 | 02 | `#experience` | 工作经历（中建国际城市建设有限公司） | 时间轴结构 |
 | 03 | `#skills` | 技能（AI / 绘图 / 设计） | 卡片网格 |
 | 04 | `#hobbies` | 爱好（书籍 / 游戏 / 拼搭 / ACG） | 卡片网格 |
-| 05 | `#works` | 作品（桌游 / 网页小游戏 / 独立游戏，含 PDF 外链） | 作品卡片网格 |
+| 05 | `#works` | 作品（桌游 PDF / 网页小游戏在线试玩 / 独立游戏） | 作品卡片网格 |
 | 06 | `#contact` | 联系方式（邮箱 / GitHub / 哔哩哔哩） | 卡片网格 |
 | 页脚 | `footer` | 简历 PDF 下载入口 | `assets/resume.pdf` |
 
@@ -29,7 +29,11 @@ personal-homepage/
 ├── js/
 │   └── main.js         # 交互：滚动进度、导航高亮、入场动画、打字机、粒子背景
 ├── assets/
-│   └── README.md       # 简历 PDF 放置说明
+│   ├── resume.pdf      # 简历 PDF（页脚下载入口）
+│   ├── works/          # 作品文件（如 magic-journey.pdf）
+│   └── README.md       # 资源放置说明
+├── games/
+│   └── ultimate-tictactoe/   # 《井井字棋？》在线试玩（纯静态网页小游戏）
 ├── DEPLOY.md           # 部署与更新说明
 └── README.md           # 本文件
 ```
@@ -45,6 +49,7 @@ personal-homepage/
 - **教育经历 / 工作经历**：在对应的 `.timeline` 中复制 `.timeline__item` 结构并替换文字（工作经历条目当前不含描述段）。
 - **技能 / 爱好 / 作品**：复制对应的 `.skill-card` / `.hobby-card` / `.work-card` 结构。
 - **作品封面**：当前使用 emoji 图标。若要换成图片，把图片放进 [`assets/works/`](assets) 并在 `.work-card__thumb` 内改用 `<img>` 标签。
+- **作品在线试玩**：《井井字棋？》的试玩页位于 [`games/ultimate-tictactoe/`](games)，按钮指向该目录的 `index.html`；更新游戏内容时直接覆盖该目录下的文件即可。
 - **联系方式**：修改 [`index.html`](index.html) 中 `#contact` 区块内三个卡片的 `href` 与显示文字。
 - **简历下载**：把简历文件命名为 `resume.pdf` 放到 [`assets/`](assets) 目录下。
 - **主题色**：在 [`css/style.css`](css/style.css) 顶部的 `:root` 变量中统一调整。
@@ -64,6 +69,18 @@ personal-homepage/
 - **不严肃**：圆角、柔和阴影、emoji 图标、轻松的打字机动效。
 - **响应式**：适配桌面 / 平板 / 手机，移动端折叠导航。
 - **无障碍**：支持 `prefers-reduced-motion`，自动减弱动效。
+
+## 在线试玩（games/）
+
+《井井字棋？》以纯静态方式内置在本站，点击作品卡片上的「▶ 在线试玩」按钮会在新标签页打开：
+
+```
+games/ultimate-tictactoe/index.html
+```
+
+- 无需构建、无外部依赖，直接由 GitHub Pages 托管。
+- 游戏自带「双人对战 / 对战电脑（新手 · 老手 · 宗师）」与「夜弈 / 宣纸 / 霓虹」三套皮肤。
+- 详细说明见 [`games/README.md`](games/README.md)。
 
 ## 部署
 

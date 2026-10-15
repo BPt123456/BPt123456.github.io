@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="ink">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>井井字棋？</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/themes/ink.css">
+  <link rel="stylesheet" href="css/themes/paper.css">
+  <link rel="stylesheet" href="css/themes/neon.css">
+</head>
+<body>
+  <div class="app">
+    <header class="hero">
+      <p class="seal">大棋套小棋</p>
+      <h1>井井字棋？</h1>
+      <p class="lede">先在小九宫连线，再在大九宫连线。</p>
+    </header>
+
+    <section class="toolbar" aria-label="对局设置">
+      <label class="field">
+        <span>对局</span>
+        <select id="mode-select">
+          <option value="hotseat">双人对战</option>
+          <option value="ai">对战电脑</option>
+        </select>
+      </label>
+      <label class="field">
+        <span>难度</span>
+        <select id="difficulty-select">
+          <option value="novice">新手</option>
+          <option value="adept">老手</option>
+          <option value="master" selected>宗师</option>
+        </select>
+      </label>
+      <label class="field">
+        <span>皮肤</span>
+        <select id="theme-select">
+          <option value="ink">夜弈</option>
+          <option value="paper">宣纸</option>
+          <option value="neon">霓虹</option>
+        </select>
+      </label>
+      <button type="button" id="restart-btn" class="btn">重新开始</button>
+    </section>
+
+    <p id="status" class="status" role="status" aria-live="polite"></p>
+
+    <div id="meta-board" class="meta-board" role="group" aria-label="井井字棋棋盘"></div>
+
+    <details class="rules">
+      <summary>规则</summary>
+      <ol>
+        <li>大棋盘是九宫格，每一格里还有一个小井字棋。</li>
+        <li>在某个小棋盘连成一线，才算在大棋盘占据这一格。</li>
+        <li>你落子的位置（小格的方位）会指定对手下一手必须下在对应的小棋盘；若该盘已结束，则可任选未结束的小棋盘。</li>
+        <li>在大棋盘连成一线即获胜。小棋盘下满且无人连线则视为该格空置。</li>
+      </ol>
+    </details>
+  </div>
+
+  <script src="js/constants.js"></script>
+  <script src="js/board.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/ai.js"></script>
+  <script src="js/themes.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

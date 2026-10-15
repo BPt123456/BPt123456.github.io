@@ -39,3 +39,6 @@ assets/works/magic-journey.pdf   ← 《魔法之旅：抉择》
 
 - `avatar.jpg` —— 头像图片（如需在 Hero 区展示）
 - `works/` —— 作品 PDF、截图或封面图
+
+> 注意：《井井字棋？》是可在线试玩的网页小游戏，代码不放本目录，而是单独放在
+> [`games/`](games) 目录下，详见 [`games/README.md`](games/README.md)。
