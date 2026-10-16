@@ -111,6 +111,68 @@ body {
   transform: translateY(-1px);
 }
 
+.scoreboard {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin: 0 0 18px;
+}
+
+.scoreboard[hidden] {
+  display: none;
+}
+
+.score {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  min-width: 132px;
+  justify-content: center;
+  padding: 8px 18px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--board);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.score-name {
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+}
+
+.score b {
+  font-size: 26px;
+  font-variant-numeric: tabular-nums;
+}
+
+.score-x b {
+  color: var(--x);
+}
+
+.score-o b {
+  color: var(--o);
+}
+
+.score.is-active {
+  border-color: color-mix(in srgb, var(--active) 75%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--active) 18%, transparent);
+}
+
+.score.is-low b {
+  animation: score-low 1.4s ease-in-out infinite;
+}
+
+@keyframes score-low {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
 .status {
   min-height: 1.6em;
   text-align: center;
@@ -165,6 +227,9 @@ body {
 }
 
 .cell {
+  position: relative;
+  display: grid;
+  place-items: center;
   aspect-ratio: 1;
   border: 0;
   border-radius: 8px;
@@ -175,6 +240,31 @@ body {
   font-weight: 700;
   cursor: pointer;
   padding: 0;
+}
+
+.cell.has-cost::after {
+  content: attr(data-cost);
+  position: absolute;
+  right: 4px;
+  bottom: 2px;
+  font-size: clamp(8px, 1.1vw, 11px);
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--muted);
+  opacity: 0.85;
+}
+
+.cell.is-legal.has-cost::after {
+  color: color-mix(in srgb, var(--active) 80%, var(--ink));
+}
+
+.cell.is-unaffordable {
+  background: color-mix(in srgb, var(--x) 12%, transparent);
+}
+
+.cell.is-unaffordable::after {
+  color: var(--x);
+  text-decoration: line-through;
 }
 
 .cell:disabled {
@@ -231,6 +321,19 @@ body {
 .local-board.is-draw .local-banner {
   color: var(--draw);
   font-size: clamp(28px, 6vw, 48px);
+}
+
+.local-board.is-new-win {
+  animation: new-win 0.7s ease-out 2;
+}
+
+@keyframes new-win {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--active) 70%, transparent);
+  }
+  100% {
+    box-shadow: 0 0 0 14px color-mix(in srgb, var(--active) 0%, transparent);
+  }
 }
 
 .rules {

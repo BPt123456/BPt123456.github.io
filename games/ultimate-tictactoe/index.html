@@ -19,6 +19,13 @@
 
     <section class="toolbar" aria-label="对局设置">
       <label class="field">
+        <span>规则</span>
+        <select id="rule-select">
+          <option value="classic" selected>传统模式</option>
+          <option value="score">积分模式</option>
+        </select>
+      </label>
+      <label class="field">
         <span>对局</span>
         <select id="mode-select">
           <option value="hotseat">双人对战</option>
@@ -46,6 +53,15 @@
 
     <p id="status" class="status" role="status" aria-live="polite"></p>
 
+    <div id="scoreboard" class="scoreboard" hidden>
+      <div class="score score-x">
+        <span class="score-name">甲</span><b id="score-x">300</b>
+      </div>
+      <div class="score score-o">
+        <span class="score-name">乙</span><b id="score-o">300</b>
+      </div>
+    </div>
+
     <div id="meta-board" class="meta-board" role="group" aria-label="井井字棋棋盘"></div>
 
     <details class="rules">
@@ -56,6 +72,17 @@
         <li>你落子的位置（小格的方位）会指定对手下一手必须下在对应的小棋盘；若该盘已结束，则可任选未结束的小棋盘。</li>
         <li>在大棋盘连成一线即获胜。小棋盘下满且无人连线则视为该格空置。</li>
       </ol>
+    </details>
+
+    <details class="rules">
+      <summary>积分模式规则</summary>
+      <ul>
+        <li>双方开局各 300 积分。</li>
+        <li>落子扣分：中心格 50、边格 30、角格 10；积分不够的格子不能落。</li>
+        <li>在小棋盘连成一线得分：该盘位于大棋盘中心 +100、边 +70、角 +50。</li>
+        <li>在大棋盘连成一线 +150。</li>
+        <li>出现大棋盘连线、某方积分清零、或双方都无可行落子时结束，积分高者获胜，相等为和。</li>
+      </ul>
     </details>
   </div>
 

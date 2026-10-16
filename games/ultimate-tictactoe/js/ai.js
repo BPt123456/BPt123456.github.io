@@ -36,6 +36,15 @@ JJZQ.AI.engine = (function () {
   // 落点价值：中心 / 角 / 边。
   var CELL_VALUE = [3, 2, 3, 2, 4, 2, 3, 2, 3];
 
+  // 积分模式：按格索引展开的落子成本、小棋盘连线奖励。
+  var SCORE_RULES = JJZQ.SCORE_RULES;
+  var CELL_COST = SCORE_RULES.roles.map(function (role) {
+    return SCORE_RULES.moveCost[role];
+  });
+  var CELL_REWARD = SCORE_RULES.roles.map(function (role) {
+    return SCORE_RULES.lineReward[role];
+  });
+
   function other(player) {
     return OPP[player];
   }
@@ -131,12 +140,95 @@ JJZQ.AI.engine = (function () {
   }
 
   /**
+   * 积分模式评估：以双方积分差为基准，再叠加「即将到手的连线收益」
+   * 与「完成这条线要付的落子成本」。
+   *
+   * 积分模式的终局只看积分，没有胜负线概念；大棋盘连线、小棋盘连线、
+   * 落子成本都已体现为积分的进出，因此这里直接比较积分。
+   */
+  function evaluateScore(game, a) {
+    var b = other(a);
+    var score = game.scores[a] - game.scores[b];
+    var mv = metaValue(game.localResults, a);
+    var i;
+    var j;
+    var k;
+    var line;
+    var s;
+    var cells;
+    var ca;
+    var cb;
+    var empties;
+    var emptyIdx;
+    var cell;
+    var reward;
+
+    if (game.winner === "D") {
+      return 0;
+    }
+
+    // 大棋盘连线：三条中占二即为强威胁（成线会被终局奖励强化）。
+    for (i = 0; i < LINES.length; i += 1) {
+      line = LINES[i];
+      s = mv[line[0]] + mv[line[1]] + mv[line[2]];
+      if (s > 0) {
+        score += s * s * 150;
+      } else if (s < 0) {
+        score -= s * s * 150;
+      }
+    }
+
+    // 小棋盘内：接近成线的收益，扣掉完成该线要付的落子成本。
+    for (i = 0; i < 9; i += 1) {
+      if (game.localResults[i] !== null) {
+        continue;
+      }
+      cells = game.boards[i];
+      reward = CELL_REWARD[i];
+      for (j = 0; j < LINES.length; j += 1) {
+        line = LINES[j];
+        ca = 0;
+        cb = 0;
+        empties = 0;
+        emptyIdx = -1;
+        for (k = 0; k < 3; k += 1) {
+          cell = cells[line[k]];
+          if (cell === a) {
+            ca += 1;
+          } else if (cell === b) {
+            cb += 1;
+          } else {
+            empties += 1;
+            emptyIdx = line[k];
+          }
+        }
+        if (ca === 2 && cb === 0 && empties === 1) {
+          score += reward * 0.6 - CELL_COST[emptyIdx] * 0.6;
+        } else if (cb === 2 && ca === 0 && empties === 1) {
+          score -= reward * 0.6 - CELL_COST[emptyIdx] * 0.6;
+        } else if (ca === 1 && cb === 0 && empties === 2) {
+          score += reward * 0.15;
+        } else if (cb === 1 && ca === 0 && empties === 2) {
+          score -= reward * 0.15;
+        }
+      }
+    }
+
+    return score;
+  }
+
+  /**
    * 评估函数：返回以 a 为视角的分值（己方越优分值越大）。
    *
    * game.winner === "D" 时静态评估约为 0，不当作负无穷，这样
    * 搜索不会因为「逼平」而被判为灾难，宗师档更愿意选择不败路线。
    */
   function evaluate(game, a) {
+    // 积分模式的终局含义与胜负线不同，改用积分视角的评估。
+    if (game.isScoreMode()) {
+      return evaluateScore(game, a);
+    }
+
     var b = other(a);
     var mv = metaValue(game.localResults, a);
     var i;
@@ -245,6 +337,11 @@ JJZQ.AI.engine = (function () {
     s += CELL_VALUE[move.cell] * 3;
     s += localScore(game.boards[move.board], a) * 2;
     s -= localScore(game.boards[move.board], other(a)) * 3;
+    if (game.isScoreMode()) {
+      // 优先高奖励的棋盘、便宜的落点。
+      s += CELL_REWARD[move.board] * 0.5;
+      s -= CELL_COST[move.cell] * 3;
+    }
     s += depth * 0.0001;
     // 轻微随机抖动：让等价走法的顺序略有变化，增加对局多样性。
     s += Math.random() * 0.5;
@@ -390,6 +487,30 @@ JJZQ.AI.engine = (function () {
  * 三档难度机器人
  * ======================================================================= */
 
+/**
+ * 找出「一手取胜」的走法。传统模式下指大棋盘连线；积分模式下还包含
+ * 把对手积分打到清零的走法。limit 为最多返回数量，够了就停。
+ */
+JJZQ.AI.immediateWins = function (game, limit) {
+  var a = game.currentPlayer;
+  var moves = game.legalMoves();
+  var wins = [];
+  var i;
+  var child;
+
+  for (i = 0; i < moves.length; i += 1) {
+    child = game.clone();
+    child.play(moves[i].board, moves[i].cell);
+    if (child.winner === a) {
+      wins.push(moves[i]);
+      if (wins.length >= limit) {
+        break;
+      }
+    }
+  }
+  return wins;
+};
+
 JJZQ.AI.register("random", {
   id: "random",
   name: "随机",
@@ -413,18 +534,13 @@ JJZQ.AI.register("novice", {
     if (moves.length === 0) {
       return null;
     }
-    var a = game.currentPlayer;
-    var i;
-    var child;
+    var wins;
 
     // 三成概率抓住「一手取胜」。
     if (Math.random() < 0.3) {
-      for (i = 0; i < moves.length; i += 1) {
-        child = game.clone();
-        child.play(moves[i].board, moves[i].cell);
-        if (child.winner === a) {
-          return moves[i];
-        }
+      wins = JJZQ.AI.immediateWins(game, 1);
+      if (wins.length > 0) {
+        return wins[0];
       }
     }
     return moves[Math.floor(Math.random() * moves.length)];
@@ -444,16 +560,10 @@ JJZQ.AI.register("adept", {
       return null;
     }
 
-    // 立刻取胜绝不放过。
-    var a = game.currentPlayer;
-    var i;
-    var child;
-    for (i = 0; i < moves.length; i += 1) {
-      child = game.clone();
-      child.play(moves[i].board, moves[i].cell);
-      if (child.winner === a) {
-        return moves[i];
-      }
+    // 立刻取胜绝不放过（积分模式下也包含把对手打到清零的走法）。
+    var wins = JJZQ.AI.immediateWins(game, 1);
+    if (wins.length > 0) {
+      return wins[0];
     }
 
     // 失误：随机走一步。

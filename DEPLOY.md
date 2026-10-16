@@ -21,6 +21,21 @@
 > 只需回来更新上面这一行路径说明即可。
 > 同级的 `Desktop\Projects\` 下还放有其他项目（如 `ultimate-tictactoe`），彼此互不影响。
 
+## 更新试玩游戏（《井井字棋？》）
+
+`games/ultimate-tictactoe/` 是游戏源码 `Desktop\Projects\ultimate-tictactoe\` 的
+**独立文件副本**，两边互不联动。游戏侧改完后，在本站目录下执行同步脚本：
+
+```
+powershell -NoProfile -ExecutionPolicy Bypass -File ..\ultimate-tictactoe\tools\sync-to-homepage.ps1
+```
+
+脚本按哈希比对，只覆盖有差异的文件（`index.html`、`css`、`js`）；加 `-Check` 可先预览。
+同步完成后再走下面的 `git add -A / commit / push` 三步即可上线。
+
+> 为什么不直接软链接同一份源码：GitHub Pages **不解析提交进仓库的 symlink**，
+> 线上会变成空文件、试玩页 404；而且本机创建符号链接需要管理员权限。
+
 ## 如何更新网站（三步）
 
 以后修改页面内容后，在 `personal-homepage` 目录下执行：
