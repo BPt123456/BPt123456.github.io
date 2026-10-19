@@ -33,6 +33,23 @@ powershell -NoProfile -ExecutionPolicy Bypass -File ..\ultimate-tictactoe\tools\
 脚本按哈希比对，只覆盖有差异的文件（`index.html`、`css`、`js`）；加 `-Check` 可先预览。
 同步完成后再走下面的 `git add -A / commit / push` 三步即可上线。
 
+## 更新游戏下载包（《通关五分钟》）
+
+`downloads/` 目录存放首页作品卡片的可下载发布包，GitHub Pages 会直接当静态文件托管：
+
+| 项目 | 值 |
+| --- | --- |
+| 本地包 | `downloads/ClearIn5Minutes-v0.2.0-win64.zip` |
+| 公网直链 | https://bpt123456.github.io/downloads/ClearIn5Minutes-v0.2.0-win64.zip |
+| 大小 | 51.5 MB（单文件，解压即玩） |
+
+发新版本时：把新 zip 复制进 `downloads/`（文件名带版本号）→ 改 [`index.html`](index.html:284)
+里卡片的 `href` 和按钮文案 → 三步提交推送。**旧版本 zip 记得删掉**，
+GitHub 对单文件上限 100 MB、对仓库总量也有限制，长期堆积会拖慢 `clone` 和 Pages 构建。
+
+> 本次推送时 GitHub 提示「51.51 MB 超过 50 MB 建议上限」，属警告不阻断；
+> 若以后包体超过 100 MB，则必须改用 Git LFS 或 GitHub Release 附件。
+
 > 为什么不直接软链接同一份源码：GitHub Pages **不解析提交进仓库的 symlink**，
 > 线上会变成空文件、试玩页 404；而且本机创建符号链接需要管理员权限。
 
