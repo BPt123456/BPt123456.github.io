@@ -781,6 +781,30 @@ h1, h2, h3, h4 {
   font-size: 15px;
 }
 
+/* 作品卡片底部动作区（允许放多个按钮） */
+.work-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.work-card__hint {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+
+.work-card__hint code {
+  padding: 1px 6px;
+  font-size: 12px;
+  border-radius: 5px;
+  border: 1px solid var(--border);
+  background: var(--btn-ghost-bg);
+  font-family: ui-monospace, Consolas, "Courier New", monospace;
+}
+
 /* ---------- 联系方式 ---------- */
 .contact-grid {
   display: grid;
